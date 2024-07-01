@@ -12,3 +12,79 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id @default(uuid())
+  profileImageUrl String? @db.VarChar(350)
+  name String @db.VarChar(30)
+  email String @unique @db.VarChar(30)
+  username String @unique @db.VarChar(30)
+  password String @db.VarChar(255)
+  role Roles @default(USER)
+
+  address_id Int? @unique
+  address Address? @relation(fields: [address_id], references: [id], onDelete: Cascade)
+
+  toDos ToDo[]
+
+  @@map("tb_users")
+}
+
+model Address {
+  id Int @id @default(autoincrement())
+  street String @db.VarChar(50)
+  zipCode String @db.VarChar(8)
+  number String @db.VarChar(5)
+  city String @db.VarChar(20)
+  state String @db.VarChar(2)
+
+  user User?
+
+  @@map("tb_addresses")
+}
+
+model ToDo {
+  id String @id @default(uuid())
+  name String @db.VarChar(30)
+  description String @db.VarChar(1000)
+  accomplished Boolean @default(false)
+  priority Priorities @default(LOW)
+
+  user_id String
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  tags ToDoTag[]
+
+  @@map("tb_todos")
+}
+
+model Tag {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(10)
+
+  toDos ToDoTag[]
+
+  @@map("tb_tags")
+}
+
+model ToDoTag {
+  todo_id String
+  tag_id Int
+
+  toDo ToDo @relation(fields: [todo_id], references: [id])
+  tag Tag @relation(fields: [tag_id], references: [id])
+
+  @@id([todo_id, tag_id])
+  @@map("tb_todo_tag")
+}
+
+enum Roles {
+  ADMIN
+  USER
+}
+
+enum Priorities {
+  LOW
+  MEDIUM
+  HIGH
+}
