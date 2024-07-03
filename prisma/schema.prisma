@@ -20,7 +20,7 @@ model User {
   email String @unique @db.VarChar(30)
   username String @unique @db.VarChar(30)
   password String @db.VarChar(255)
-  role Roles @default(USER)
+  role Roles? @default(USER)
 
   address_id Int? @unique
   address Address? @relation(fields: [address_id], references: [id], onDelete: Cascade)

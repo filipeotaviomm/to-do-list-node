@@ -9,7 +9,7 @@ const userSchema = z.object({
   email: z.string().max(30).email(),
   username: z.string().max(30),
   password: z.string().max(255),
-  role: roleEnum.optional().nullable(),
+  role: roleEnum.nullish(),
   address_id: z.number().optional().nullable(),
 });
 

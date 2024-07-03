@@ -12,7 +12,7 @@ CREATE TABLE "tb_users" (
     "email" VARCHAR(30) NOT NULL,
     "username" VARCHAR(30) NOT NULL,
     "password" VARCHAR(255) NOT NULL,
-    "role" "Roles" NOT NULL DEFAULT 'USER',
+    "role" "Roles" DEFAULT 'USER',
     "address_id" INTEGER,
 
     CONSTRAINT "tb_users_pkey" PRIMARY KEY ("id")

@@ -16,11 +16,11 @@ interface IUserUpdate {
   email?: string;
   username?: string;
   password?: string;
-  role?: string;
+  role?: "USER" | "ADMIN";
 }
 
 type ILoginReq = z.infer<typeof loginSchema>;
-type ILoginResp = { token: string };
+type ILoginResp = { name: string; token: string };
 
 export {
   IUserReq,
