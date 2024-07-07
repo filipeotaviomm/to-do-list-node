@@ -23,7 +23,7 @@ model User {
   role Roles? @default(USER)
 
   address_id Int? @unique
-  address Address? @relation(fields: [address_id], references: [id], onDelete: Cascade)
+  address Address? @relation(fields: [address_id], references: [id], onDelete: SetNull)
 
   toDos ToDo[]
 

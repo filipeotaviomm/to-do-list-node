@@ -5,12 +5,12 @@ import {
   allTagsRespSchema,
 } from "../schemas/tag.schema";
 
-type IContactReq = z.infer<typeof tagReqSchema>;
-type IContactResp = z.infer<typeof tagRespSchema>;
-type IContactsResp = z.infer<typeof allTagsRespSchema>;
+type ITagReq = z.infer<typeof tagReqSchema>;
+type ITagResp = z.infer<typeof tagRespSchema>;
+type IAllTagsResp = z.infer<typeof allTagsRespSchema>;
 
 interface ITagUpdate {
   name?: string;
 }
 
-export { IContactReq, IContactResp, IContactsResp, ITagUpdate };
+export { ITagReq, ITagResp, IAllTagsResp, ITagUpdate };

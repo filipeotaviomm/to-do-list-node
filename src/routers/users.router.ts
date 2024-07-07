@@ -12,6 +12,7 @@ import {
   isEmailUnique,
   isUserAdmin,
   isUserLogged,
+  isUsernameUnique,
 } from "../middlewares/users.middleware";
 import { validateBody } from "../middlewares/globals.middleware";
 import { userReqSchema, userUpdateSchema } from "../schemas/user.schema";
@@ -22,6 +23,7 @@ userRouter.post(
   "/register",
   validateBody(userReqSchema),
   isEmailUnique,
+  isUsernameUnique,
   createUserController
 );
 
@@ -42,6 +44,7 @@ userRouter.patch(
   doesUserHavePermission,
   validateBody(userUpdateSchema),
   isEmailUnique,
+  isUsernameUnique,
   updateUserController
 );
 

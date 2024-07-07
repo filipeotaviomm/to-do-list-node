@@ -68,7 +68,7 @@ CREATE UNIQUE INDEX "tb_users_username_key" ON "tb_users"("username");
 CREATE UNIQUE INDEX "tb_users_address_id_key" ON "tb_users"("address_id");
 
 -- AddForeignKey
-ALTER TABLE "tb_users" ADD CONSTRAINT "tb_users_address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "tb_addresses"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "tb_users" ADD CONSTRAINT "tb_users_address_id_fkey" FOREIGN KEY ("address_id") REFERENCES "tb_addresses"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "tb_todos" ADD CONSTRAINT "tb_todos_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "tb_users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

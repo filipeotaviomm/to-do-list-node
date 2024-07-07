@@ -28,6 +28,37 @@ export const isEmailUnique = async (
   return next();
 };
 
+//não está funcionando
+export const isUsernameUnique = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const containsUsername = req.body.username;
+
+  if (!containsUsername) return next();
+
+  if (res.locals.decoded) {
+    const userById: User | null = await prisma.user.findUnique({
+      where: { id: res.locals.decoded.id },
+    });
+
+    if (userById) {
+      if (userById.username === req.body.username) return next();
+    }
+  }
+
+  const userByUsername: User | null = await prisma.user.findUnique({
+    where: { username: req.body.username },
+  });
+
+  if (userByUsername) {
+    throw new AppError("Username already exists", 409);
+  }
+
+  return next();
+};
+
 export const isUserLogged = (
   req: Request,
   res: Response,
