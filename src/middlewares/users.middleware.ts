@@ -10,43 +10,48 @@ export const isEmailUnique = async (
   next: NextFunction
 ): Promise<void> => {
   const containsEmail = req.body.email;
+  const userByIdInUrl: User | null = await prisma.user.findUnique({
+    where: { id: req.params.userId },
+  });
 
   if (!containsEmail) return next();
 
-  if (res.locals.decoded) {
-    if (res.locals.decoded.email === req.body.email) return next();
-  }
+  const userLoggedById: User | null = await prisma.user.findUnique({
+    where: { id: res.locals.decoded.sub },
+  });
 
-  const email: User | null = await prisma.user.findUnique({
+  if (userLoggedById?.email === req.body.email) return next();
+  if (userByIdInUrl?.email === req.body.email) return next();
+
+  const userByEmail: User | null = await prisma.user.findUnique({
     where: { email: req.body.email },
   });
 
-  if (email) {
-    throw new AppError("Email already exists", 409);
+  if (userByEmail) {
+    throw new AppError("Username already exists", 409);
   }
 
   return next();
 };
 
-//não está funcionando
 export const isUsernameUnique = async (
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   const containsUsername = req.body.username;
+  const userByIdInUrl: User | null = await prisma.user.findUnique({
+    where: { id: req.params.userId },
+  });
 
   if (!containsUsername) return next();
 
-  if (res.locals.decoded) {
-    const userById: User | null = await prisma.user.findUnique({
-      where: { id: res.locals.decoded.id },
-    });
+  const userLoggedById: User | null = await prisma.user.findUnique({
+    where: { id: res.locals.decoded.sub },
+  });
 
-    if (userById) {
-      if (userById.username === req.body.username) return next();
-    }
-  }
+  if (userLoggedById?.username === req.body.username) return next();
+  if (userByIdInUrl?.username === req.body.username) return next();
 
   const userByUsername: User | null = await prisma.user.findUnique({
     where: { username: req.body.username },

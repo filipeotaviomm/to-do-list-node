@@ -27,7 +27,6 @@ const getAllUsersService = async (): Promise<IAllUsersResp> => {
   return allUsersRespSchema.parse(allUsers);
 };
 
-//não está funcionando
 const getUserbyIdService = async (userId: string): Promise<IUserResp> => {
   const user: User | null = await prisma.user.findUnique({
     where: { id: userId },
