@@ -10,9 +10,11 @@ import {
   doesUserExist,
   doesUserHavePermission,
   isEmailUnique,
+  isEmailUniqueInCreation,
   isUserAdmin,
   isUserLogged,
   isUsernameUnique,
+  isUsernameUniqueInCreation,
 } from "../middlewares/users.middleware";
 import { validateBody } from "../middlewares/globals.middleware";
 import { userReqSchema, userUpdateSchema } from "../schemas/user.schema";
@@ -22,15 +24,15 @@ export const userRouter: Router = Router();
 userRouter.post(
   "/register",
   validateBody(userReqSchema),
-  isEmailUnique,
-  isUsernameUnique,
+  isEmailUniqueInCreation,
+  isUsernameUniqueInCreation,
   createUserController
 );
 
 userRouter.get("/all", isUserLogged, isUserAdmin, getAllUsersController);
 
 userRouter.get(
-  "/:userId",
+  "/:id",
   doesUserExist,
   isUserLogged,
   doesUserHavePermission,
@@ -38,7 +40,7 @@ userRouter.get(
 );
 
 userRouter.patch(
-  "/:userId",
+  "/:id",
   doesUserExist,
   isUserLogged,
   doesUserHavePermission,
@@ -49,7 +51,7 @@ userRouter.patch(
 );
 
 userRouter.delete(
-  "/:userId",
+  "/:id",
   doesUserExist,
   isUserLogged,
   doesUserHavePermission,

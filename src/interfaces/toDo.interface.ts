@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { Priorities } from "@prisma/client";
 import {
   toDoReqSchema,
   toDoRespSchema,
@@ -13,7 +14,7 @@ interface IToDoUpdate {
   name?: string;
   description?: string;
   accomplished?: boolean;
-  priority?: string;
+  priority?: Priorities;
   isFavorite?: boolean;
 }
 

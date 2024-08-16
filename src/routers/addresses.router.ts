@@ -6,13 +6,13 @@ import {
   getUserAddressController,
   updateAddressController,
 } from "../controllers/addresses.controller";
-import {
-  doesUserHavePermission,
-  isUserAdmin,
-  isUserLogged,
-} from "../middlewares/users.middleware";
+import { isUserAdmin, isUserLogged } from "../middlewares/users.middleware";
 import { validateBody } from "../middlewares/globals.middleware";
 import { addressReqSchema } from "../schemas/address.schema";
+import {
+  doesAddressExist,
+  doesUserHavePermission,
+} from "../middlewares/addresses.middleware";
 
 export const addressRouter: Router = Router();
 
@@ -23,10 +23,22 @@ addressRouter.post(
   createAddressController
 );
 
+addressRouter.get("/current", isUserLogged, getUserAddressController);
+
 addressRouter.get("/all", isUserLogged, isUserAdmin, getAllAddressesController);
 
-addressRouter.get("/", isUserLogged, getUserAddressController);
+addressRouter.put(
+  "/:id",
+  isUserLogged,
+  doesAddressExist,
+  doesUserHavePermission,
+  updateAddressController
+);
 
-addressRouter.put("/:addressId", isUserLogged, updateAddressController);
-
-addressRouter.delete("/:addressId", isUserLogged, deleteAddressController);
+addressRouter.delete(
+  "/:id",
+  isUserLogged,
+  doesAddressExist,
+  doesUserHavePermission,
+  deleteAddressController
+);

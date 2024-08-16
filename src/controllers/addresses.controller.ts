@@ -22,16 +22,8 @@ const createAddressController = async (
   return res.status(201).json(address);
 };
 
-const getAllAddressesController = async (
-  _req: Request,
-  res: Response
-): Promise<Response> => {
-  const allAddresses: IAllAddressesResp = await getAllAddressesService();
-  return res.status(200).json(allAddresses);
-};
-
 const getUserAddressController = async (
-  req: Request,
+  _req: Request,
   res: Response
 ): Promise<Response> => {
   const address: IAddressResp | null = await getUserAddressService(
@@ -40,11 +32,19 @@ const getUserAddressController = async (
   return res.status(200).json(address);
 };
 
+const getAllAddressesController = async (
+  _req: Request,
+  res: Response
+): Promise<Response> => {
+  const allAddresses: IAllAddressesResp = await getAllAddressesService();
+  return res.status(200).json(allAddresses);
+};
+
 const updateAddressController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const addressId = +req.params.addressId;
+  const addressId = +req.params.id;
   const address = await updateAddressService(addressId, req.body);
   return res.status(200).json(address);
 };
@@ -53,7 +53,7 @@ const deleteAddressController = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  await deleteAddressService(+req.params.addressId);
+  await deleteAddressService(+req.params.id);
   return res.status(204).json();
 };
 

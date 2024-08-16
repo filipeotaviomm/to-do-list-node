@@ -23,7 +23,9 @@ const createUserService = async (data: IUserReq): Promise<IUserResp> => {
 };
 
 const getAllUsersService = async (): Promise<IAllUsersResp> => {
-  const allUsers: User[] = await prisma.user.findMany();
+  const allUsers: User[] = await prisma.user.findMany({
+    orderBy: { role: "asc" },
+  });
   return allUsersRespSchema.parse(allUsers);
 };
 

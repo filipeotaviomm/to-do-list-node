@@ -4,6 +4,38 @@ import { User } from "@prisma/client";
 import { prisma } from "../app";
 import { verify } from "jsonwebtoken";
 
+export const isEmailUniqueInCreation = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userByEmail: User | null = await prisma.user.findUnique({
+    where: { email: req.body.email },
+  });
+
+  if (userByEmail) {
+    throw new AppError("Email already exists", 409);
+  }
+
+  return next();
+};
+
+export const isUsernameUniqueInCreation = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const userByUsername: User | null = await prisma.user.findUnique({
+    where: { username: req.body.username },
+  });
+
+  if (userByUsername) {
+    throw new AppError("Username already exists", 409);
+  }
+
+  return next();
+};
+
 export const isEmailUnique = async (
   req: Request,
   res: Response,
@@ -11,7 +43,7 @@ export const isEmailUnique = async (
 ): Promise<void> => {
   const containsEmail = req.body.email;
   const userByIdInUrl: User | null = await prisma.user.findUnique({
-    where: { id: req.params.userId },
+    where: { id: req.params.id },
   });
 
   if (!containsEmail) return next();
@@ -28,7 +60,7 @@ export const isEmailUnique = async (
   });
 
   if (userByEmail) {
-    throw new AppError("Username already exists", 409);
+    throw new AppError("Email already exists", 409);
   }
 
   return next();
@@ -41,7 +73,7 @@ export const isUsernameUnique = async (
 ): Promise<void> => {
   const containsUsername = req.body.username;
   const userByIdInUrl: User | null = await prisma.user.findUnique({
-    where: { id: req.params.userId },
+    where: { id: req.params.id },
   });
 
   if (!containsUsername) return next();
@@ -89,7 +121,7 @@ export const doesUserExist = async (
   next: NextFunction
 ): Promise<void> => {
   const user: User | null = await prisma.user.findUnique({
-    where: { id: req.params.userId },
+    where: { id: req.params.id },
   });
 
   if (!user) {
@@ -123,7 +155,7 @@ export const doesUserHavePermission = async (
   next: NextFunction
 ): Promise<void> => {
   const userLoggedId = res.locals.decoded.sub;
-  const userIdUrl = req.params.userId;
+  const userIdUrl = req.params.id;
   const user: User | null = await prisma.user.findUnique({
     where: { id: res.locals.decoded.sub },
   });

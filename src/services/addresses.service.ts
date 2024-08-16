@@ -34,25 +34,23 @@ const createAddressService = async (
   return addressRespSchema.parse(address);
 };
 
-const getAllAddressesService = async (): Promise<IAllAddressesResp> => {
-  const allAddresses: Address[] = await prisma.address.findMany();
-  return allAddresses;
-};
-
 const getUserAddressService = async (
   userId: string
 ): Promise<IAddressResp | null> => {
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
-  if (!user) {
-    throw new AppError("User not found **********", 404);
-  }
-
   const address = await prisma.address.findUnique({
-    where: { id: Number(user.address_id) },
+    where: { id: Number(user?.address_id) },
   });
 
   return address;
+};
+
+const getAllAddressesService = async (): Promise<IAllAddressesResp> => {
+  const allAddresses: Address[] = await prisma.address.findMany({
+    orderBy: { id: "asc" },
+  });
+  return allAddresses;
 };
 
 const updateAddressService = async (

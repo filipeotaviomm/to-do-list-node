@@ -44,7 +44,7 @@ model Address {
 }
 
 model ToDo {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
   name String @db.VarChar(30)
   description String @db.VarChar(1000)
   accomplished Boolean @default(false)
@@ -68,7 +68,7 @@ model Tag {
 }
 
 model ToDoTag {
-  todo_id String
+  todo_id Int
   tag_id Int
 
   toDo ToDo @relation(fields: [todo_id], references: [id])

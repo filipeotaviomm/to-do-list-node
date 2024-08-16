@@ -32,7 +32,7 @@ CREATE TABLE "tb_addresses" (
 
 -- CreateTable
 CREATE TABLE "tb_todos" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" VARCHAR(30) NOT NULL,
     "description" VARCHAR(1000) NOT NULL,
     "accomplished" BOOLEAN NOT NULL DEFAULT false,
@@ -52,7 +52,7 @@ CREATE TABLE "tb_tags" (
 
 -- CreateTable
 CREATE TABLE "tb_todo_tag" (
-    "todo_id" TEXT NOT NULL,
+    "todo_id" INTEGER NOT NULL,
     "tag_id" INTEGER NOT NULL,
 
     CONSTRAINT "tb_todo_tag_pkey" PRIMARY KEY ("todo_id","tag_id")
