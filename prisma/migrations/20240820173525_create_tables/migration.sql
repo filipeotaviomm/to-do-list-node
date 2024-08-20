@@ -74,7 +74,7 @@ ALTER TABLE "tb_users" ADD CONSTRAINT "tb_users_address_id_fkey" FOREIGN KEY ("a
 ALTER TABLE "tb_todos" ADD CONSTRAINT "tb_todos_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "tb_users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "tb_todo_tag" ADD CONSTRAINT "tb_todo_tag_todo_id_fkey" FOREIGN KEY ("todo_id") REFERENCES "tb_todos"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "tb_todo_tag" ADD CONSTRAINT "tb_todo_tag_todo_id_fkey" FOREIGN KEY ("todo_id") REFERENCES "tb_todos"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "tb_todo_tag" ADD CONSTRAINT "tb_todo_tag_tag_id_fkey" FOREIGN KEY ("tag_id") REFERENCES "tb_tags"("id") ON DELETE CASCADE ON UPDATE CASCADE;

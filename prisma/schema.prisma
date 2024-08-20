@@ -71,7 +71,7 @@ model ToDoTag {
   todo_id Int
   tag_id Int
 
-  toDo ToDo @relation(fields: [todo_id], references: [id])
+  toDo ToDo @relation(fields: [todo_id], references: [id], onDelete: Cascade)
   tag Tag @relation(fields: [tag_id], references: [id], onDelete: Cascade)
 
   @@id([todo_id, tag_id])
