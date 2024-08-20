@@ -1,16 +1,28 @@
 import { z } from "zod";
 import {
   tagReqSchema,
-  tagRespSchema,
   allTagsRespSchema,
+  tagSchema,
 } from "../schemas/tag.schema";
+import { IToDo } from "./toDo.interface";
 
 type ITagReq = z.infer<typeof tagReqSchema>;
-type ITagResp = z.infer<typeof tagRespSchema>;
+
+type ITagResp = IToDo & {
+  tags: {
+    tag: z.infer<typeof tagSchema>;
+  }[];
+};
+
+// mesma coisa do de cima
+// interface ITagResp extends IToDo {
+//   tags: {
+//     tag: z.infer<typeof tagSchema>;
+//   }[];
+// }
+
+type ITagUpdate = z.infer<typeof tagSchema>;
+
 type IAllTagsResp = z.infer<typeof allTagsRespSchema>;
 
-interface ITagUpdate {
-  name?: string;
-}
-
-export { ITagReq, ITagResp, IAllTagsResp, ITagUpdate };
+export { ITagReq, ITagResp, ITagUpdate, IAllTagsResp };

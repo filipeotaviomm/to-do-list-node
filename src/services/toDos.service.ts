@@ -5,8 +5,8 @@ import {
   IToDosResp,
   IToDoUpdate,
 } from "../interfaces/toDo.interface";
-import { allToDosRespSchema, toDoRespSchema } from "../schemas/toDo.schema";
 import { prisma } from "../app";
+import { toDoRespSchema } from "../schemas/toDo.schema";
 
 const createToDoService = async (
   data: IToDoReq,
@@ -22,10 +22,20 @@ const createToDoService = async (
 const getAllToDosService = async (userId: string): Promise<IToDosResp> => {
   const toDos: ToDo[] = await prisma.toDo.findMany({
     where: { user_id: userId },
-    orderBy: { priority: "desc" },
+    include: {
+      tags: {
+        select: {
+          tag: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
-
-  return allToDosRespSchema.parse(toDos);
+  return toDos;
 };
 
 const getToDoByIdService = async (
@@ -33,6 +43,18 @@ const getToDoByIdService = async (
 ): Promise<IToDoResp | null> => {
   const toDo: ToDo | null = await prisma.toDo.findUnique({
     where: { id: toDoId },
+    include: {
+      tags: {
+        select: {
+          tag: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    },
   });
   return toDo;
 };
@@ -41,7 +63,7 @@ const updateToDoService = async (
   toDoId: number,
   toDoData: IToDoUpdate
 ): Promise<IToDoUpdate> => {
-  const toDo = prisma.toDo.update({
+  const toDo = await prisma.toDo.update({
     where: { id: toDoId },
     data: toDoData,
   });

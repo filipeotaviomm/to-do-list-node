@@ -53,7 +53,7 @@ model ToDo {
   user_id String
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  tags ToDoTag[]
+  tags ToDoTag[] 
 
   @@map("tb_todos")
 }
@@ -72,7 +72,7 @@ model ToDoTag {
   tag_id Int
 
   toDo ToDo @relation(fields: [todo_id], references: [id])
-  tag Tag @relation(fields: [tag_id], references: [id])
+  tag Tag @relation(fields: [tag_id], references: [id], onDelete: Cascade)
 
   @@id([todo_id, tag_id])
   @@map("tb_todo_tag")

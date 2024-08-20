@@ -4,8 +4,10 @@ import {
   toDoReqSchema,
   toDoRespSchema,
   allToDosRespSchema,
+  toDoSchema,
 } from "../schemas/toDo.schema";
 
+type IToDo = z.infer<typeof toDoSchema>;
 type IToDoReq = z.infer<typeof toDoReqSchema>;
 type IToDoResp = z.infer<typeof toDoRespSchema>;
 type IToDosResp = z.infer<typeof allToDosRespSchema>;
@@ -18,4 +20,4 @@ interface IToDoUpdate {
   isFavorite?: boolean;
 }
 
-export { IToDoReq, IToDoResp, IToDosResp, IToDoUpdate };
+export { IToDoReq, IToDoResp, IToDosResp, IToDoUpdate, IToDo };

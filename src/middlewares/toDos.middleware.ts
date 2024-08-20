@@ -21,6 +21,24 @@ export const doesToDoExist = async (
   return next();
 };
 
+export const doesToDoIdExist = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const toDo: ToDo | null = await prisma.toDo.findUnique({
+    where: { id: +req.params.toDoId },
+  });
+
+  if (!toDo) {
+    throw new AppError("To Do not found", 404);
+  }
+
+  res.locals.toDo = toDo;
+
+  return next();
+};
+
 export const doesUserHavePermission = async (
   _req: Request,
   res: Response,
@@ -29,6 +47,7 @@ export const doesUserHavePermission = async (
   const toDo: ToDo | null = await prisma.toDo.findUnique({
     where: { id: res.locals.toDo.id },
   });
+
   const user: User | null = await prisma.user.findUnique({
     where: { id: res.locals.decoded.sub },
   });
