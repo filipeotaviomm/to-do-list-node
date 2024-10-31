@@ -9,7 +9,8 @@ export const app: Application = express();
 
 export const prisma = new PrismaClient();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+// app.use(cors({ origin: "http://localhost:5173" })); //react
+app.use(cors({ origin: "http://localhost:4200" })); //angular
 
 app.use(json());
 
